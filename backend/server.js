@@ -16,7 +16,7 @@ const pool = mysql.createPool({
   host: "127.0.0.1",
   user: "root",
   password: "", //silcem
-  database: "306project",
+  database: "comp306",
 });
 
 //To retrieve the names of stars who have acted in movies directed by Martin Scorsese
