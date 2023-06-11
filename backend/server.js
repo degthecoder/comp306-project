@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "password",
-  database: "world",
+  password: "selam",
+  database: "306project",
 });
 
 function contains(val, col_name, table_name, callback) {
