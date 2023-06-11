@@ -1,10 +1,13 @@
 import React from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const handleClick = () => {
-        console.log("HElloo")
+        navigate("/stars");
+
     };
 
     return (
@@ -18,23 +21,23 @@ const Navbar = () => {
                 marginRight: "100px",
                 marginLeft: "100px",
             }}>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
+                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
                     <Typography sx={{
                         color: "#faf9d4 ",
                         fontSize: 20,
                         fontFamily: "-apple-system",
                         userSelect: "none"
-                }}>
+                    }}>
                         Search
                     </Typography>
                 </Box>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
-                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system" ,userSelect: "none"}}>
+                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
+                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system", userSelect: "none" }}>
                         Movies
                     </Typography>
                 </Box>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
-                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system",userSelect: "none" }}>
+                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
+                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system", userSelect: "none" }}>
                         Filter
                     </Typography>
                 </Box>

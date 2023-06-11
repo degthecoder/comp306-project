@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const pool = mysql.createPool({
   host: "127.0.0.1",
   user: "root",
-  password: "", //silcem
+  password: "", //silce
   database: "comp306",
 });
 
@@ -210,7 +210,10 @@ app.get("/aggregateCountries", (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  stars_in_movies_directed_by("Martin Scorsese");
+
+  const data = req.body.director
+  console.log(data);
+  stars_in_movies_directed_by(data).then(response => res.send(response));
   // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
   // contains("AFK", "countryCode", "city", (res) => console.log("Q1) AFK ", res));
   // find_min_max_continent().then((response)=>{console.log("Q5-1) ",response)});
@@ -219,5 +222,5 @@ app.post("/", (req, res) => {
 });
 
 app.listen(3008, () => {
-  console.log("Started... on 3000");
+  console.log("Started... on 3008");
 });
