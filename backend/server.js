@@ -13,15 +13,15 @@ app.use(bodyParser.json());
 
 // Create a MySQL connection pool
 const pool = mysql.createPool({
-  host: "localhost",
+  host: "127.0.0.1",
   user: "root",
-  password: "5380741424Yy", //silcem
+  password: "", //silcem
   database: "306project",
 });
 
 export function stars_in_movies_directed_by(director_name) {
   const query1 = `
-  SELECT s.primaryName
+  SELECT DISTINCT s.primaryName
   FROM Stars s
   JOIN PlaysIn pi ON s.starId = pi.starId
   JOIN Movies m ON pi.filmId = m.id
