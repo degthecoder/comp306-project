@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 const pool = mysql.createPool({
   host: "127.0.0.1",
   user: "root",
-  password: "5380741424Yy", //silcem
+  password: "", //silcem
   database: "306project",
 });
 
