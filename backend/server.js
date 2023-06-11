@@ -19,14 +19,6 @@ const pool = mysql.createPool({
   database: "306project",
 });
 
-function contains(val, col_name, table_name, callback) {
-  const query1 = `Select ${col_name} from ${table_name} where ${col_name} = '${val}'`;
-  pool.query(query1, (err, results) => {
-    if (err) console.error(err);
-    return callback(results.length > 0 ? true : false);
-  });
-}
-
 export function stars_in_movies_directed_by(director_name) {
   const query1 = `
   SELECT s.primaryName
@@ -178,8 +170,8 @@ function find_country_count(amount) {
 }
 
 app.get("/starInMovies", (req, res) => {
-  const { country1, country2 } = req.query;
-  diff_lang(country1, country2)
+  const {director_name} = req.query;
+  stars_in_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);
     })
@@ -218,14 +210,14 @@ app.get("/aggregateCountries", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.send("Q1 and Q5");
-  contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
-  contains("AFK", "countryCode", "city", (res) => console.log("Q1) AFK ", res));
-  find_min_max_continent().then((response)=>{console.log("Q5-1) ",response)});
-  find_country_languages(85,"arabic").then((response)=>{console.log("Q5-2) ",response)});
-  find_country_count(100).then((response)=>{console.log("Q5-3) ",response)}).catch((err)=>{console.error(err);});
+  stars_in_movies_directed_by("Martin Scorsese");
+  // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
+  // contains("AFK", "countryCode", "city", (res) => console.log("Q1) AFK ", res));
+  // find_min_max_continent().then((response)=>{console.log("Q5-1) ",response)});
+  // find_country_languages(85,"arabic").then((response)=>{console.log("Q5-2) ",response)});
+  // find_country_count(100).then((response)=>{console.log("Q5-3) ",response)}).catch((err)=>{console.error(err);});
 });
 
-app.listen(3000, () => {
+app.listen(3008, () => {
   console.log("Started... on 3000");
 });
