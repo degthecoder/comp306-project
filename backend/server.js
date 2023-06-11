@@ -19,6 +19,7 @@ const pool = mysql.createPool({
   database: "comp306",
 });
 
+//To retrieve the names of stars who have acted in movies directed by Martin Scorsese
 export function stars_in_movies_directed_by(director_name) {
   const query1 = `
   SELECT DISTINCT s.primaryName
@@ -28,146 +29,152 @@ export function stars_in_movies_directed_by(director_name) {
   JOIN Directs dt ON m.id = dt.filmId
   JOIN Directors d ON dt.directorId = d.nconst
   WHERE d.primaryName = '${director_name}'
-  ORDER BY s.primaryName ASC  
+  ORDER BY s.primaryName ASC;  
     `;
   return new Promise((resolve, reject) => {
     pool.query(query1, (err, results) => {
       if (err) reject(err);
-      console.log("Re", results);
+      console.log("query1", results);
       resolve(results);
     });
   });
 }
 
-
-export function diff_lang(country1, country2, callback) {
-  const query1 = `SELECT countrylanguage.language
-    FROM countrylanguage
-    INNER JOIN country ON country.code = countrylanguage.countrycode
-    WHERE country.name = '${country1}'
-    AND countrylanguage.language NOT IN (
-        SELECT countrylanguage.language
-        FROM countrylanguage
-        INNER JOIN country ON country.code = countrylanguage.countrycode
-        WHERE country.name = '${country2}'
-      ); 
+//To find the average rating for movies of each genre:
+export function avg_rating_for_each_genre() {
+  const query1 = `
+    SELECT mg.genre, AVG(r.averageRating) AS averageRating
+    FROM MovieGenres mg
+    JOIN Movies m ON mg.movieId = m.id
+    JOIN Ratings r ON m.id = r.tconst
+    GROUP BY mg.genre
     `;
   return new Promise((resolve, reject) => {
     pool.query(query1, (err, results) => {
       if (err) reject(err);
-      console.log("Re", results);
+      console.log("query2", results);
       resolve(results);
     });
   });
 }
 
-export function diff_lang_join(country1, country2) {
-  const query = 
-    `SELECT DISTINCT cl.language
-    FROM countrylanguage cl
-    INNER JOIN country c1 ON c1.code = cl.countrycode
-    LEFT JOIN countrylanguage cl2 ON cl2.countrycode = c1.code
-    INNER JOIN country c2 ON c2.code = cl2.countrycode
-    WHERE c1.name = '${country1}' AND (c2.name <> '${country2}' OR c2.name IS NULL);
+//To find the names of stars who born after birthYear and appeared in at least 20 movies
+export function born_after_and_acted_in_at_least(birthYear) {
+  const query1 = `
+  SELECT DISTINCT s.primaryName
+  FROM Stars s
+  JOIN PlaysIn pi ON s.starId = pi.starId
+  WHERE s.birthYear > '${birthYear}'
+  GROUP BY s.primaryName
+  HAVING COUNT(DISTINCT pi.filmId) >= 20;
     `;
   return new Promise((resolve, reject) => {
-    pool.query(query, (err, results) => {
+    pool.query(query1, (err, results) => {
       if (err) reject(err);
+      console.log("query3", results);
       resolve(results);
     });
   });
-
 }
 
-export function aggregate_countries(agg_type, country_name, callback) {
-  const query = 
-  `SELECT DISTINCT
-  country.name,
-  country.lifeexpectancy,
-  country.governmentform,
-  countrylanguage.language
-  FROM
-    country
-    INNER JOIN countrylanguage ON countrylanguage.countrycode = country.code
-  WHERE
-    lifeexpectancy > (
-      SELECT ${agg_type}(lifeexpectancy)
-      FROM country
-    ) AND lifeexpectancy < (
-      SELECT lifeexpectancy
-      FROM country
-      WHERE name = '${country_name}'
+//To find the names of directors who have directed movies of all genres:
+export function directed_movies_of_all_genres() {
+  const query1 = `
+  SELECT DISTINCT primaryName
+  FROM Directors
+  WHERE nconst IN (
+    SELECT directorId
+    FROM Directs
+    GROUP BY directorId
+    HAVING COUNT(DISTINCT filmId) = (
+        SELECT COUNT(DISTINCT genre)
+        FROM MovieGenres
     )
-  `;
-
-  pool.query(query, (err, results) => {
-    if (err) callback(err);
-    callback(results);
-  });
-}
-
-function find_min_max_continent() {
-  const query = 
-  `SELECT c.continent, c.name, c.lifeexpectancy
-  FROM country c
-  WHERE c.lifeexpectancy = (
-    SELECT MIN(lifeexpectancy)
-    FROM country
-    WHERE continent = c.continent
   )
-  OR c.lifeexpectancy = (
-    SELECT MAX(lifeexpectancy)
-    FROM country
-    WHERE continent = c.continent
-  )
-  ORDER BY c.continent, c.lifeexpectancy DESC;`;
-
+    `;
   return new Promise((resolve, reject) => {
-    pool.query(query, (err, results) => {
+    pool.query(query1, (err, results) => {
       if (err) reject(err);
+      console.log("query4", results);
       resolve(results);
     });
   });
 }
 
-function find_country_languages(percentage, language) {
-  const query = `SELECT country.name, countrylanguage.language, countrylanguage.percentage
-      FROM country 
-      JOIN countrylanguage ON country.code = countrylanguage.countrycode
-      WHERE countrylanguage.language = '${language}'
-      AND countrylanguage.percentage >= ${percentage};`;
+//To find the movies with the highest average rating:
+export function highest_rated() {
+  const query1 = `
+    SELECT m.primaryTitle, r.averageRating
+    FROM Movies m
+    JOIN Ratings r ON m.id = r.tconst
+    WHERE r.averageRating = (
+      SELECT MAX(averageRating)
+      FROM Ratings
+  );
+    `;
   return new Promise((resolve, reject) => {
-    pool.query(query, (err, results) => {
+    pool.query(query1, (err, results) => {
       if (err) reject(err);
+      console.log("query3", results);
       resolve(results);
     });
   });
 }
 
-function find_country_count(amount) {
-  const query = ` 
-      SELECT country.name, MAX(country.lifeexpectancy) as LifeExpectancy, country.continent
-      FROM country
-      WHERE country.code IN (
-          SELECT city.countrycode
-          FROM city
-          GROUP BY city.countrycode
-          HAVING COUNT(*) > ${amount}
-      )
-      GROUP BY country.name, country.continent;
-  `;
-
-  // I changed the GROUP BY country.continent to GROUP BY country.name, country.continent
-  // for the query to work. 
-  // There are duplicate results due to sql_mode=only_full_group_by. 
-  // It works otherwise but the settings 
+//To find the names of stars who have played in movies directed by Martin Scorsese and Christopher Nolan:
+export function played_in_both(director1, director2) {
+  const query1 = `
+  SELECT s.primaryName
+  FROM Stars s
+  JOIN PlaysIn pi ON s.starId = pi.starId
+  JOIN Movies m ON pi.filmId = m.id
+  JOIN Directs dt ON m.id = dt.filmId
+  JOIN Directors d ON dt.directorId = d.nconst
+  WHERE d.primaryName IN ('${director1}', '${director2}')
+  GROUP BY s.primaryName
+  HAVING COUNT(DISTINCT d.nconst) = 2;
+   `; 
   return new Promise((resolve, reject) => {
-    pool.query(query, (err, results) => {
+    pool.query(query1, (err, results) => {
       if (err) reject(err);
+      console.log("query1", results);
       resolve(results);
     });
   });
 }
+
+//To get the names of stars who have appeared in movies directed by Martin Scorsese and have an average rating higher than the average rating of all his movies:
+export function appeared_in_higher_than_average_rating(director_name) {
+  const query1 = `
+  SELECT DISTINCT s.primaryName
+  FROM Stars s
+  JOIN PlaysIn pi ON s.starId = pi.starId
+  JOIN Movies m ON pi.filmId = m.id
+  JOIN Directs dt ON m.id = dt.filmId
+  JOIN Directors d ON dt.directorId = d.nconst
+  JOIN Ratings r ON m.id = r.tconst
+  WHERE d.primaryName = '${director_name}'
+  GROUP BY s.primaryName
+  HAVING AVG(r.averageRating) > (
+      SELECT AVG(rating.averageRating)
+      FROM Movies movie
+      JOIN Directs dir ON movie.id = dir.filmId
+      JOIN Directors director ON dir.directorId = director.nconst
+      JOIN Ratings rating ON movie.id = rating.tconst
+      WHERE director.primaryName = '${director_name}'
+  );
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+
+
 
 app.get("/starInMovies", (req, res) => {
   const {director_name} = req.query;
@@ -180,9 +187,9 @@ app.get("/starInMovies", (req, res) => {
     });
 });
 
-app.get("/getDiffLang", (req, res) => {
-  const { country1, country2 } = req.query;
-  diff_lang(country1, country2)
+app.get("/actedInAtLeast", (req, res) => {
+  const {birthYear} = req.query;
+  born_after_and_acted_in_at_least(birthYear)
     .then((response) => {
       res.send(response);
     })
@@ -191,9 +198,9 @@ app.get("/getDiffLang", (req, res) => {
     });
 });
 
-app.get("/getDiffLangJoin", (req, res) => {
-  const { country1, country2 } = req.query;
-  diff_lang_join(country1, country2)
+app.get("/directedAllGenres", (req, res) => {
+  const {} = req.query;
+  directed_movies_of_all_genres()
     .then((response) => {
       res.send(response);
     })
@@ -202,22 +209,67 @@ app.get("/getDiffLangJoin", (req, res) => {
     });
 });
 
-app.get("/aggregateCountries", (req, res) => {
-  const { agg, country } = req.query;
-  aggregate_countries(agg, country, (results) => {
-    res.send(results);
-  });
+app.get("/highestRated", (req, res) => {
+  const {} = req.query;
+  highest_rated()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
-app.post("/", (req, res) => {
-  stars_in_movies_directed_by("Martin Scorsese");
+app.get("/avgRating", (req, res) => {
+  const {} = req.query;
+  avg_rating_for_each_genre()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.get("/playedInBoth", (req, res) => {
+  const {director_name} = req.query;
+  played_in_both(director1, director2)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.get("/higherThanAverage", (req, res) => {
+  const {director_name} = req.query;
+  appeared_in_higher_than_average_rating(director_name)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+
+
+app.get("/", (req, res) => {
+  const data = req.body.data;   
+  stars_in_movies_directed_by("Martin Scorsese")
+  born_after_and_acted_in_at_least("1990")
+  directed_movies_of_all_genres()
+  avg_rating_for_each_genre()
+  highest_rated()
+  appeared_in_higher_than_average_rating("Martin Scorsese")
+  played_in_both("Martin Scorses", "Christoper Nolan")
+
+
   // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
-  // contains("AFK", "countryCode", "city", (res) => console.log("Q1) AFK ", res));
-  // find_min_max_continent().then((response)=>{console.log("Q5-1) ",response)});
-  // find_country_languages(85,"arabic").then((response)=>{console.log("Q5-2) ",response)});
-  // find_country_count(100).then((response)=>{console.log("Q5-3) ",response)}).catch((err)=>{console.error(err);});
 });
 
 app.listen(3008, () => {
   console.log("Started... on 3000");
 });
+
