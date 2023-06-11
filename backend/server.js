@@ -16,7 +16,7 @@ const pool = mysql.createPool({
   host: "127.0.0.1",
   user: "root",
   password: "", //silcem
-  database: "306project",
+  database: "comp306",
 });
 
 export function stars_in_movies_directed_by(director_name) {
@@ -209,7 +209,7 @@ app.get("/aggregateCountries", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
   stars_in_movies_directed_by("Martin Scorsese");
   // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
   // contains("AFK", "countryCode", "city", (res) => console.log("Q1) AFK ", res));
