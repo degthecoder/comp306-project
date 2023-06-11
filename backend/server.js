@@ -15,8 +15,8 @@ app.use(bodyParser.json());
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "password",
-  database: "world",
+  password: "5380741424Yy", //silcem
+  database: "306project",
 });
 
 function contains(val, col_name, table_name, callback) {
@@ -26,6 +26,27 @@ function contains(val, col_name, table_name, callback) {
     return callback(results.length > 0 ? true : false);
   });
 }
+
+export function stars_in_movies_directed_by(director_name) {
+  const query1 = `
+  SELECT s.primaryName
+  FROM Stars s
+  JOIN PlaysIn pi ON s.starId = pi.starId
+  JOIN Movies m ON pi.filmId = m.id
+  JOIN Directs dt ON m.id = dt.filmId
+  JOIN Directors d ON dt.directorId = d.nconst
+  WHERE d.primaryName = '${director_name}'
+  ORDER BY s.primaryName ASC  
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("Re", results);
+      resolve(results);
+    });
+  });
+}
+
 
 export function diff_lang(country1, country2, callback) {
   const query1 = `SELECT countrylanguage.language
@@ -155,6 +176,17 @@ function find_country_count(amount) {
     });
   });
 }
+
+app.get("/starInMovies", (req, res) => {
+  const { country1, country2 } = req.query;
+  diff_lang(country1, country2)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
 
 app.get("/getDiffLang", (req, res) => {
   const { country1, country2 } = req.query;
