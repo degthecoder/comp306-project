@@ -88,9 +88,6 @@ export const getAllGenres = () => {
     return send;
 };
 
-
-
-
 export const getBestOfGenres = (data) => {
     // eslint-disable-next-line no-console
     const send = axios.post(`${url}/getBestOfGenres`, data);
@@ -98,3 +95,24 @@ export const getBestOfGenres = (data) => {
     return send;
 };
 
+export const allMoviesOfAStar = (data) => {
+    // eslint-disable-next-line no-console
+    const send = axios.post(`${url}/allMoviesOfAStar`, data);
+    
+    return send;
+};
+
+export const allMoviesDirectedBy = (data) => {
+    // eslint-disable-next-line no-console
+    const send = axios.post(`${url}/allMoviesOfADirector`, data);
+    
+    return send;
+};
+
+
+export const getCastOfTheMovie = (data) => {
+    // eslint-disable-next-line no-console
+    const send = axios.post(`${url}/getCastOfTheMovie`, data);
+    
+    return send;
+};

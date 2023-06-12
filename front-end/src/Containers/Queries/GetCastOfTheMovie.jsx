@@ -1,19 +1,19 @@
 
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import { directorsWithLowerRating } from "../../api/simple";
+import { allMoviesOfAStar, getCastOfTheMovie } from "../../api/simple";
 
 
-const DirectorsWithLowerRating = () => {
+const GetCastOfTheMovie = () => {
     const [stars, setStars] = useState([]);
     const [drct, setDrct] = useState("");
     const [open, setOpen] = useState(false);
     const handleStars = () => {
         console.log("response");
         console.log(drct)
-        const data = { rating: drct }
+        const data = { movieName: drct }
         if (drct.length > 0) {
-            directorsWithLowerRating(data).then(response => {
+            getCastOfTheMovie(data).then(response => {
                 console.log(response)
                 setStars(response.data)
             }).then(
@@ -42,16 +42,16 @@ const DirectorsWithLowerRating = () => {
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Enter the director" value={drct} onChange={director} />
-                <Button variant='contained' onClick={handleStars}>
-                    Higher Than Average
+                <TextField label="Find the cast members" value={drct} onChange={director} />
+                <Button onClick={handleStars} variant="contained">
+                    Get the cast of {drct}
                 </Button>
 
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Stars played in movies which rated higher than average of the director {drct}</DialogTitle>
+                <DialogTitle>Get Cast Of The Movie</DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box sx={{
@@ -62,7 +62,7 @@ const DirectorsWithLowerRating = () => {
                             padding: 2
                         }}>
                             <Typography key={index} variant="body1" sx={{
-
+                                fontSize: 15
                             }}>
                                 {star.primaryName}
                             </Typography>
@@ -74,4 +74,4 @@ const DirectorsWithLowerRating = () => {
     )
 };
 
-export default DirectorsWithLowerRating;
+export default GetCastOfTheMovie;

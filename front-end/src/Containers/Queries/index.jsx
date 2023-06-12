@@ -7,6 +7,12 @@ import ActedInAtLeast from "./actedInAtLeast";
 import HigherThanAverage from "./HigherThanAverage";
 import DirectorsWithLowerRating from "./DirectorsWithLowerRating";
 import OneMovieBetween from "./OneMovieBetween";
+import GenreCount from "./GenreCount";
+import AllMoviesDirectedBy from "./AllMoviesDirectedBy";
+import DirectedAllGenres from "./DirectedAllGenres";
+import AverageRating from "./AverageRating";
+import AllMoviesOfAStar from "./AllMoviesOfAStar";
+import GetCastOfTheMovie from "./GetCastOfTheMovie";
 
 
 const Directors = () => {
@@ -36,6 +42,12 @@ const Directors = () => {
                 <HigherThanAverage />
                 <DirectorsWithLowerRating />
                 <OneMovieBetween />
+                <GenreCount />
+                <AllMoviesDirectedBy />
+                <DirectedAllGenres />
+                <AverageRating />
+                <AllMoviesOfAStar />
+                <GetCastOfTheMovie />
             </Box>
         </Box>
     )

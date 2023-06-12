@@ -91,7 +91,7 @@ const Genres = () => {
                             }}>
                                 {genr.genre}
                             </Typography>
-                            <Button onClick={() => openGenre(genr.genre)}>
+                            <Button variant='contained' onClick={() => openGenre(genr.genre)}>
                                 List Genre
                             </Button>
                         </Box>

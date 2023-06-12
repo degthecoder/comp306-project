@@ -22,6 +22,11 @@ const Navbar = () => {
         navigate("/genres");
     };
 
+    const handleHighest = () => {
+        navigate("/highestRated");
+    };
+
+
     return (
         <AppBar sx={{
             backgroundColor: "#152e12"
@@ -50,7 +55,7 @@ const Navbar = () => {
                         fontFamily: "-apple-system",
                         userSelect: "none"
                     }}>
-                        Filter By Director
+                        Trivia
                     </Typography>
                 </Box>
                 <Box sx={{ backgroundColor: "" }} onClick={handlePopularMovies}>
@@ -71,6 +76,16 @@ const Navbar = () => {
                         userSelect: "none"
                     }}>
                         Genres
+                    </Typography>
+                </Box>
+                <Box sx={{ backgroundColor: "" }} onClick={handleHighest}>
+                    <Typography sx={{
+                        color: "#faf9d4 ",
+                        fontSize: 20,
+                        fontFamily: "-apple-system",
+                        userSelect: "none"
+                    }}>
+                        Highest Rated Movies
                     </Typography>
                 </Box>
             </Toolbar>

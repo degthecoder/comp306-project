@@ -1,19 +1,19 @@
 
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import { directorsWithLowerRating } from "../../api/simple";
+import { genreCount, higherThanAverage } from "../../api/simple";
 
 
-const DirectorsWithLowerRating = () => {
+const GenreCount = () => {
     const [stars, setStars] = useState([]);
     const [drct, setDrct] = useState("");
     const [open, setOpen] = useState(false);
     const handleStars = () => {
         console.log("response");
         console.log(drct)
-        const data = { rating: drct }
+        const data = { genreCount: drct }
         if (drct.length > 0) {
-            directorsWithLowerRating(data).then(response => {
+            genreCount(data).then(response => {
                 console.log(response)
                 setStars(response.data)
             }).then(
@@ -42,29 +42,33 @@ const DirectorsWithLowerRating = () => {
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Enter the director" value={drct} onChange={director} />
-                <Button variant='contained' onClick={handleStars}>
-                    Higher Than Average
+                <TextField label="Enter the min rating" value={drct} onChange={director} />
+                <Button onClick={handleStars} variant="outlined">
+                    Number of movies rated {drct}
                 </Button>
 
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Stars played in movies which rated higher than average of the director {drct}</DialogTitle>
+                <DialogTitle>How many movies in each genre {drct}</DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
-                        <Box sx={{
+                        <Box key={index} sx={{
                             // display: "flex",
                             flexDirection: "row",
                             border: "1px solid",
                             borderRadius: 10,
                             padding: 2
                         }}>
-                            <Typography key={index} variant="body1" sx={{
+                            <Typography variant="body1" sx={{
 
                             }}>
-                                {star.primaryName}
+                                {star.genre}
+
+                            </Typography>
+                            <Typography>
+                                {star.movieCount}
                             </Typography>
                         </Box>
                     ))}
@@ -74,4 +78,4 @@ const DirectorsWithLowerRating = () => {
     )
 };
 
-export default DirectorsWithLowerRating;
+export default GenreCount;

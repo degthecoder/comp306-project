@@ -109,7 +109,7 @@ export function highest_rated() {
     JOIN Ratings r ON m.id = r.tconst
     WHERE r.averageRating < (
       SELECT MAX(averageRating)
-      FROM Ratings) AND r.numVotes > 50000
+      FROM Ratings) AND r.numVotes > 30000
       ORDER BY r.averageRating DESC
       LIMIT 100;
     `;
@@ -475,7 +475,7 @@ app.post("/directorsWithLowerRating", (req, res) => {
 });
 
 app.post("/genreCount", (req, res) => {
-  const { rating } = req.query;
+  const rating  = req.body.genreCount;
   count_favs_each_genre(rating)
     .then((response) => {
       res.send(response);
@@ -499,7 +499,7 @@ app.post("/genreCount", (req, res) => {
 /////////////////////////////////////////////////////////
 
 app.post("/allMoviesOfADirector", (req, res) => {
-  const {director_name} = req.body.director;
+  const director_name = req.body.director;
   all_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);
@@ -510,7 +510,7 @@ app.post("/allMoviesOfADirector", (req, res) => {
 });
 
 app.post("/allMoviesOfAStar", (req, res) => {
-  const {star_name} = req.body.star;
+  const star_name = req.body.star;
   all_movies_of_a_star(star_name)
     .then((response) => {
       res.send(response);
@@ -521,7 +521,7 @@ app.post("/allMoviesOfAStar", (req, res) => {
 });
 
 app.post("/getCastOfTheMovie", (req, res) => {
-  const { movie_name } = req.query;
+  const movie_name = req.body.movieName;
   cast_of_movie(movie_name)
     .then((response) => {
       res.send(response);

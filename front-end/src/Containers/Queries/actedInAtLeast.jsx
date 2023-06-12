@@ -56,7 +56,7 @@ const ActedInAtLeast = () => {
                     <TextField sx={{ width: "50vw" }} label="birthyear" value={by} onChange={biry} />
                     <TextField sx={{ width: "50vw" }} label="num" value={nmbr} onChange={numb} />
                 </Box>
-                <Button onClick={handleStars} sx={{
+                <Button variant='contained' onClick={handleStars} sx={{
                 }}>
                     Search Stars From Directors
                 </Button>

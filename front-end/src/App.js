@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import queries from './Containers/Queries';
 import PopularMovies from './Containers/PopularMovies';
 import Genres from './Containers/Genres';
+import HighestRated from './Containers/HighestRated';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
       <Route path="/queries" Component={queries}/>
       <Route path="/popularMovies" Component={PopularMovies}/>
       <Route path="/genres" Component={Genres}/>
+      <Route path="/highestRated" Component={HighestRated}/>
+
 
 
     </Routes>
