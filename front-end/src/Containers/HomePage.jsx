@@ -3,7 +3,10 @@ import { Box, Typography } from "@mui/material";
 import Navbar from "../Layouts/Navbar";
 
 
-const HomePage = () => {
+const HomePage = (data) => {
+
+
+
     return (
         <div>
             <Navbar />
@@ -15,7 +18,9 @@ const HomePage = () => {
                 minHeight: "100vh",
                 minWidth: "100vw",
             }}>
-                <Typography>
+                <Typography sx={{
+                    
+                }}>
                     Hello
                 </Typography>
             </Box>

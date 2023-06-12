@@ -4,9 +4,10 @@ import Navbar from "../../Layouts/Navbar";
 import PlayedInBoth from "./PlayedInBoth";
 import { Box, Typography } from "@mui/material";
 import ActedInAtLeast from "./actedInAtLeast";
+import HigherThanAverage from "./HigherThanAverage";
 
 
-const queries = () => {
+const Directors = () => {
 
     return (
         <Box sx={{
@@ -30,9 +31,10 @@ const queries = () => {
                 <PlayedInDirector />
                 <PlayedInBoth />
                 <ActedInAtLeast />
+                <HigherThanAverage />
             </Box>
         </Box>
     )
 };
 
-export default queries;
+export default Directors;
