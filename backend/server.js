@@ -107,10 +107,11 @@ export function highest_rated() {
     SELECT m.primaryTitle, r.averageRating
     FROM Movies m
     JOIN Ratings r ON m.id = r.tconst
-    WHERE r.averageRating = (
+    WHERE r.averageRating < (
       SELECT MAX(averageRating)
-      FROM Ratings
-  );
+      FROM Ratings) AND r.numVotes > 50000
+      ORDER BY r.averageRating DESC
+      LIMIT 100;
     `;
   return new Promise((resolve, reject) => {
     pool.query(query1, (err, results) => {
@@ -354,6 +355,22 @@ export function most_voted() {
   });
 }
 
+//returns all genres, bunlar button olcak, tıklayınca 
+export function get_all_genres() {
+  const query1 = `
+  SELECT DISTINCT genre
+  FROM MovieGenres
+  ORDER BY genre ASC;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
 app.post("/starInMovies", (req, res) => {
   const director_name = req.body.director;
   stars_in_movies_directed_by(director_name)
@@ -468,10 +485,21 @@ app.post("/genreCount", (req, res) => {
     });
 });
 
+app.post("/genreCount", (req, res) => {
+  const {rating} = req.query;
+  count_favs_each_genre(rating)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
 /////////////////////////////////////////////////////////
 
 app.post("/allMoviesOfADirector", (req, res) => {
-  const { director_name } = req.query;
+  const {director_name} = req.body.director;
   all_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);
@@ -482,7 +510,7 @@ app.post("/allMoviesOfADirector", (req, res) => {
 });
 
 app.post("/allMoviesOfAStar", (req, res) => {
-  const { star_name } = req.query;
+  const {star_name} = req.body.star;
   all_movies_of_a_star(star_name)
     .then((response) => {
       res.send(response);
@@ -526,7 +554,19 @@ app.post("/getBestOfGenres", (req, res) => {
 });
 
 app.get("/getMostVoted", (req, res) => {
+  // const {genre} = req.query;
   most_voted()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.get("/getAllGenres", (req, res) => {
+  // const {genre} = req.query;
+  get_all_genres()
     .then((response) => {
       res.send(response);
     })
