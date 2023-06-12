@@ -81,3 +81,20 @@ export const getMostVoted = () => {
 };
 
 
+export const getAllGenres = () => {
+    // eslint-disable-next-line no-console
+    const send = axios.get(`${url}/getAllGenres`);
+    
+    return send;
+};
+
+
+
+
+export const getBestOfGenres = (data) => {
+    // eslint-disable-next-line no-console
+    const send = axios.post(`${url}/getBestOfGenres`, data);
+    
+    return send;
+};
+

@@ -543,7 +543,8 @@ app.post("/allMoviesReleasedIn", (req, res) => {
 });
 
 app.post("/getBestOfGenres", (req, res) => {
-  const { genre } = req.query;
+  const genre  = req.body.genre;
+  console.log("Deneme", genre);
   best_of_genre(genre)
     .then((response) => {
       res.send(response);

@@ -2,6 +2,7 @@ import HomePage from './Containers/HomePage';
 import { Route, Routes } from 'react-router-dom';
 import queries from './Containers/Queries';
 import PopularMovies from './Containers/PopularMovies';
+import Genres from './Containers/Genres';
 
 function App() {
   return (
@@ -10,6 +11,8 @@ function App() {
       <Route path="/home" Component={HomePage}/>
       <Route path="/queries" Component={queries}/>
       <Route path="/popularMovies" Component={PopularMovies}/>
+      <Route path="/genres" Component={Genres}/>
+
 
     </Routes>
   );

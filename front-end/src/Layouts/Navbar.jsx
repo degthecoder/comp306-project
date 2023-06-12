@@ -8,7 +8,6 @@ const Navbar = () => {
 
     const handlePopularMovies = () => {
         navigate("/popularMovies");
-
     };
 
     const handleQueries = () => {
@@ -19,8 +18,8 @@ const Navbar = () => {
         navigate("/");
     };
 
-    const handleClick= () => {
-        navigate("/");
+    const handleGenres = () => {
+        navigate("/genres");
     };
 
     return (
@@ -64,7 +63,7 @@ const Navbar = () => {
                         Popular Movies
                     </Typography>
                 </Box>
-                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
+                <Box sx={{ backgroundColor: "" }} onClick={handleGenres}>
                     <Typography sx={{
                         color: "#faf9d4 ",
                         fontSize: 20,
