@@ -159,7 +159,7 @@ export function played_in_both(director1, director2) {
   WHERE d.primaryName IN ('${director1}', '${director2}')
   GROUP BY s.primaryName
   HAVING COUNT(DISTINCT d.nconst) = 2;
-   `; 
+   `;
   return new Promise((resolve, reject) => {
     pool.query(query1, (err, results) => {
       if (err) reject(err);
@@ -372,7 +372,7 @@ export function get_all_genres() {
 }
 
 app.post("/starInMovies", (req, res) => {
-  const {director_name} = req.query;
+  const director_name = req.body.director;
   stars_in_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);
@@ -383,8 +383,9 @@ app.post("/starInMovies", (req, res) => {
 });
 
 app.post("/actedInAtLeast", (req, res) => {
-  const {birthYear} = req.query;
-  born_after_and_acted_in_at_least(birthYear)
+  const birthYear = req.body.birthYear;
+  const num = req.body.playnum;
+  born_after_and_acted_in_at_least(birthYear, num)
     .then((response) => {
       res.send(response);
     })
@@ -394,7 +395,7 @@ app.post("/actedInAtLeast", (req, res) => {
 });
 
 app.post("/directedAllGenres", (req, res) => {
-  const {} = req.query;
+  const { } = req.query;
   directed_movies_of_all_genres()
     .then((response) => {
       res.send(response);
@@ -405,7 +406,7 @@ app.post("/directedAllGenres", (req, res) => {
 });
 
 app.post("/highestRated", (req, res) => {
-  const {} = req.query;
+  const { } = req.query;
   highest_rated()
     .then((response) => {
       res.send(response);
@@ -416,7 +417,7 @@ app.post("/highestRated", (req, res) => {
 });
 
 app.post("/avgRating", (req, res) => {
-  const {} = req.query;
+  const { } = req.query;
   avg_rating_for_each_genre()
     .then((response) => {
       res.send(response);
@@ -440,7 +441,7 @@ app.post("/playedInBoth", (req, res) => {
 });
 
 app.post("/higherThanAverage", (req, res) => {
-  const {director_name} = req.query;
+  const director_name = req.body.director;
   appeared_in_higher_than_average_rating(director_name)
     .then((response) => {
       res.send(response);
@@ -451,7 +452,8 @@ app.post("/higherThanAverage", (req, res) => {
 });
 
 app.post("/oneMovieBetween", (req, res) => {
-  const {start_year, end_year} = req.query;
+  const start_year = req.body.start
+  const end_year = req.body.end;
   one_movie_between(start_year, end_year)
     .then((response) => {
       res.send(response);
@@ -462,7 +464,7 @@ app.post("/oneMovieBetween", (req, res) => {
 });
 
 app.post("/directorsWithLowerRating", (req, res) => {
-  const {rating} = req.query;
+  const  rating  = req.body.rating;
   directors_with_lower_rating(rating)
     .then((response) => {
       res.send(response);
@@ -473,7 +475,7 @@ app.post("/directorsWithLowerRating", (req, res) => {
 });
 
 app.post("/genreCount", (req, res) => {
-  const {rating} = req.query;
+  const { rating } = req.query;
   count_favs_each_genre(rating)
     .then((response) => {
       res.send(response);
@@ -519,7 +521,7 @@ app.post("/allMoviesOfAStar", (req, res) => {
 });
 
 app.post("/getCastOfTheMovie", (req, res) => {
-  const {movie_name} = req.query;
+  const { movie_name } = req.query;
   cast_of_movie(movie_name)
     .then((response) => {
       res.send(response);
@@ -530,7 +532,7 @@ app.post("/getCastOfTheMovie", (req, res) => {
 });
 
 app.post("/allMoviesReleasedIn", (req, res) => {
-  const {year} = req.query;
+  const { year } = req.query;
   all_movies_in_a_year(year)
     .then((response) => {
       res.send(response);
@@ -541,8 +543,8 @@ app.post("/allMoviesReleasedIn", (req, res) => {
 });
 
 app.post("/getBestOfGenres", (req, res) => {
-  const {genre} = req.query;
-  best_of_genre(genre) 
+  const { genre } = req.query;
+  best_of_genre(genre)
     .then((response) => {
       res.send(response);
     })

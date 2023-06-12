@@ -5,8 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const navigate = useNavigate();
+
+    const handlePopularMovies = () => {
+        navigate("/popularMovies");
+
+    };
+
     const handleQueries = () => {
-        navigate("/directors");
+        navigate("/queries");
     };
 
     const handleHomePage = () => {
@@ -45,7 +51,17 @@ const Navbar = () => {
                         fontFamily: "-apple-system",
                         userSelect: "none"
                     }}>
-                        Queries
+                        Filter By Director
+                    </Typography>
+                </Box>
+                <Box sx={{ backgroundColor: "" }} onClick={handlePopularMovies}>
+                    <Typography sx={{
+                        color: "#faf9d4 ",
+                        fontSize: 20,
+                        fontFamily: "-apple-system",
+                        userSelect: "none"
+                    }}>
+                        Popular Movies
                     </Typography>
                 </Box>
                 <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
@@ -55,17 +71,7 @@ const Navbar = () => {
                         fontFamily: "-apple-system",
                         userSelect: "none"
                     }}>
-                        Directors
-                    </Typography>
-                </Box>
-                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
-                    <Typography sx={{
-                        color: "#faf9d4 ",
-                        fontSize: 20,
-                        fontFamily: "-apple-system",
-                        userSelect: "none"
-                    }}>
-                        Stars
+                        Genres
                     </Typography>
                 </Box>
             </Toolbar>
