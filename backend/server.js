@@ -238,6 +238,122 @@ export function count_favs_each_genre(rating) {
   });
 }
 
+////////////////////////////////////////////bunlar dümdüz queryler////////////////////////////////////////////
+//TODO: rapora her querynin son hali eklenecek -> hepsinin açıklaması düzenlenecek, project description yazılacak, screenshot veya video
+
+//bu yönetmen ismi alıyo -> bütün filmlerini ve yapım yıllarını döndürüyor
+export function all_movies_directed_by(director_name) {
+  const query1 = `
+  SELECT Movies.primaryTitle, Movies.startYear
+  FROM Movies 
+  INNER JOIN Directs ON Movies.id = Directs.filmId
+  INNER JOIN Directors ON Directs.directorId = Directors.nconst
+  WHERE Directors.primaryName = '${director_name}'
+  ORDER BY Movies.startYear ASC;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+//oyuncu ismi alıyo -> oynadığı tüm filmlerin adı ve yapım yılı
+export function all_movies_of_a_star(star_name) {
+  const query1 = `
+  SELECT Movies.primaryTitle, Movies.startYear
+  FROM Movies 
+  INNER JOIN PlaysIn ON Movies.id = PlaysIn.filmId
+  INNER JOIN Stars ON PlaysIn.starId = Stars.starId
+  WHERE Stars.primaryName = '${star_name}' AND Movies.startYear IS NOT NULL
+  ORDER BY Movies.startYear ASC;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+//film adı -> filmdeki tüm oyuncuların adı
+export function cast_of_movie(movie_name) {
+  const query1 = `
+  SELECT DISTINCT Stars.primaryName 
+  FROM Stars 
+  INNER JOIN PlaysIn ON Stars.starId = PlaysIn.starId
+  INNER JOIN Movies ON PlaysIn.filmId = Movies.id
+  WHERE Movies.primaryTitle = '${movie_name}' OR Movies.originalTitle = '${movie_name}'
+  ORDER BY Stars.primaryName ASC;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+//yıl alıyo -> o yıl yapılmış tüm filmlerin adları
+export function all_movies_in_a_year(year) {
+  const query1 = `
+  SELECT Movies.primaryTitle
+  FROM Movies
+  INNER JOIN Ratings ON Movies.id = Ratings.tconst
+  WHERE Movies.startYear = '${year}' AND Ratings.numVotes > 50000
+  ORDER BY Movies.startYear ASC;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+//genre alıyo -> o genredaki en iyi 100 filmin adını, yılını ve ratingini döndürüyor(ratinge göre sıralı)
+export function best_of_genre(genre) {
+  const query1 = `
+  SELECT DISTINCT Movies.primaryTitle, Movies.startYear, Ratings.averageRating
+  FROM Movies
+  JOIN MovieGenres ON Movies.id = MovieGenres.movieId
+  JOIN Ratings ON Movies.id = Ratings.tconst
+  WHERE MovieGenres.genre = '${genre}' AND Movies.startYear IS NOT NULL AND Ratings.numVotes > 50000
+  ORDER BY Ratings.averageRating DESC
+  LIMIT 100;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
+//en çok puan verilmiş 100 filmi döndürüyor (en çok izlenenler gibi düşündüm)
+export function most_voted() {
+  const query1 = `
+  SELECT Movies.primaryTitle
+  FROM Movies
+  INNER JOIN Ratings ON Movies.id = Ratings.tconst
+  ORDER BY Ratings.numVotes DESC
+  LIMIT 100;
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
 app.post("/starInMovies", (req, res) => {
   const {director_name} = req.query;
   stars_in_movies_directed_by(director_name)
@@ -342,6 +458,74 @@ app.post("/directorsWithLowerRating", (req, res) => {
 app.post("/genreCount", (req, res) => {
   const {rating} = req.query;
   count_favs_each_genre(rating)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+/////////////////////////////////////////////////////////
+
+app.post("/allMoviesOfADirector", (req, res) => {
+  const {director_name} = req.query;
+  all_movies_directed_by(director_name)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/allMoviesOfAStar", (req, res) => {
+  const {star_name} = req.query;
+  all_movies_of_a_star(star_name)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/getCastOfTheMovie", (req, res) => {
+  const {movie_name} = req.query;
+  cast_of_movie(movie_name)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/allMoviesReleasedIn", (req, res) => {
+  const {year} = req.query;
+  all_movies_in_a_year(year)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/getBestOfGenres", (req, res) => {
+  const {genre} = req.query;
+  best_of_genre(genre) 
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/getMostVoted", (req, res) => {
+  const {genre} = req.query;
+  most_voted()
     .then((response) => {
       res.send(response);
     })
