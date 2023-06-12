@@ -121,6 +121,31 @@ export function highest_rated() {
   });
 }
 
+//To find the names of directors who directed at least one movie between the years of 2000 and 2010: 
+export function one_movie_between(start_year, end_year) {
+  const query1 = `
+  SELECT primaryName
+  FROM Directors
+  WHERE nconst IN (
+      SELECT directorId
+      FROM Directs
+      GROUP BY directorId
+      HAVING COUNT(DISTINCT filmId) = (
+          SELECT COUNT(DISTINCT startYear)
+          FROM Movies
+          WHERE startYear BETWEEN '${start_year}' AND '${end_year}' 
+      )
+  )
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
+
 //To find the names of stars who have played in movies directed by Martin Scorsese and Christopher Nolan:
 export function played_in_both(director1, director2) {
   const query1 = `
@@ -174,9 +199,46 @@ export function appeared_in_higher_than_average_rating(director_name) {
 }
 
 
+//To find the names of directors who have directed at least two movies with an average rating higher than 9:
+export function directors_with_lower_rating(rating) {
+  const query1 = `
+  SELECT d.primaryName
+  FROM Directors d
+  JOIN Directs dt ON d.nconst = dt.directorId
+  JOIN Movies m ON dt.filmId = m.id
+  JOIN Ratings r ON m.id = r.tconst
+  GROUP BY d.primaryName
+  HAVING COUNT(DISTINCT m.id) >= 2 AND AVG(r.averageRating) < '${rating}';
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
 
+//To get the total number of movies in each genre that have an average rating higher than given number:
+export function count_favs_each_genre(rating) {
+  const query1 = `
+  SELECT mg.genre, COUNT(DISTINCT m.id) AS movieCount
+  FROM MovieGenres mg
+  JOIN Movies m ON mg.movieId = m.id
+  JOIN Ratings r ON m.id = r.tconst
+  WHERE r.averageRating > '${rating}'
+  GROUP BY mg.genre;  
+    `;
+  return new Promise((resolve, reject) => {
+    pool.query(query1, (err, results) => {
+      if (err) reject(err);
+      console.log("query3", results);
+      resolve(results);
+    });
+  });
+}
 
-app.get("/starInMovies", (req, res) => {
+app.post("/starInMovies", (req, res) => {
   const {director_name} = req.query;
   stars_in_movies_directed_by(director_name)
     .then((response) => {
@@ -187,7 +249,7 @@ app.get("/starInMovies", (req, res) => {
     });
 });
 
-app.get("/actedInAtLeast", (req, res) => {
+app.post("/actedInAtLeast", (req, res) => {
   const {birthYear} = req.query;
   born_after_and_acted_in_at_least(birthYear)
     .then((response) => {
@@ -198,7 +260,7 @@ app.get("/actedInAtLeast", (req, res) => {
     });
 });
 
-app.get("/directedAllGenres", (req, res) => {
+app.post("/directedAllGenres", (req, res) => {
   const {} = req.query;
   directed_movies_of_all_genres()
     .then((response) => {
@@ -209,7 +271,7 @@ app.get("/directedAllGenres", (req, res) => {
     });
 });
 
-app.get("/highestRated", (req, res) => {
+app.post("/highestRated", (req, res) => {
   const {} = req.query;
   highest_rated()
     .then((response) => {
@@ -220,7 +282,7 @@ app.get("/highestRated", (req, res) => {
     });
 });
 
-app.get("/avgRating", (req, res) => {
+app.post("/avgRating", (req, res) => {
   const {} = req.query;
   avg_rating_for_each_genre()
     .then((response) => {
@@ -244,7 +306,7 @@ app.post("/playedInBoth", (req, res) => {
     });
 });
 
-app.get("/higherThanAverage", (req, res) => {
+app.post("/higherThanAverage", (req, res) => {
   const {director_name} = req.query;
   appeared_in_higher_than_average_rating(director_name)
     .then((response) => {
@@ -255,11 +317,37 @@ app.get("/higherThanAverage", (req, res) => {
     });
 });
 
-app.post("/starsDirectedBy", (req, res) => {
-  const data = req.body.director
-  console.log(data);
-  stars_in_movies_directed_by(data).then(response => res.send(response));
-  // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
+app.post("/oneMovieBetween", (req, res) => {
+  const {start_year, end_year} = req.query;
+  one_movie_between(start_year, end_year)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/directorsWithLowerRating", (req, res) => {
+  const {rating} = req.query;
+  directors_with_lower_rating(rating)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
+});
+
+app.post("/genreCount", (req, res) => {
+  const {rating} = req.query;
+  count_favs_each_genre(rating)
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      throw err;
+    });
 });
 
 app.get("/", (req, res) => {
@@ -269,7 +357,10 @@ app.get("/", (req, res) => {
   avg_rating_for_each_genre()
   highest_rated()
   appeared_in_higher_than_average_rating("Martin Scorsese")
-  played_in_both("Martin Scorses", "Christoper Nolan")
+  played_in_both("Martin Scorsese", "Christoper Nolan")
+
+
+  // contains("AFG", "countryCode", "city", (res) => console.log("Q1) AFG ", res));
 });
 
 app.listen(3008, () => {
