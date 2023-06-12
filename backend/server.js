@@ -355,7 +355,7 @@ export function most_voted() {
 }
 
 app.post("/starInMovies", (req, res) => {
-  const {director_name} = req.query;
+  const director_name = req.body.director;
   stars_in_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);

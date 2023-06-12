@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
     const navigate = useNavigate();
     const handleQueries = () => {
-        navigate("/directors");
+        navigate("/queries");
     };
 
     const handleHomePage = () => {

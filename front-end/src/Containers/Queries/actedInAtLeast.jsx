@@ -82,7 +82,7 @@ const ActedInAtLeast = () => {
                                     <Typography key={index} variant="body1" sx={{
 
                                     }}>
-                                        {star.primaryName} in {star.primaryTitle}
+                                        {star.primaryName}
                                     </Typography>
                                 </Box>
                             )
