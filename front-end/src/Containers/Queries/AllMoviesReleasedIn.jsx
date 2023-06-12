@@ -1,18 +1,19 @@
+
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import { getStarts } from "../../api/simple";
+import {  allMoviesReleasedIn } from "../../api/simple";
 
 
-const PlayedInDirector = () => {
+const AllMoviesReleasedIn = () => {
     const [stars, setStars] = useState([]);
     const [drct, setDrct] = useState("");
     const [open, setOpen] = useState(false);
     const handleStars = () => {
         console.log("response");
         console.log(drct)
-        const data = { director: drct }
+        const data = { movieN: drct }
         if (drct.length > 0) {
-            getStarts(data).then(response => {
+            allMoviesReleasedIn(data).then(response => {
                 console.log(response)
                 setStars(response.data)
             }).then(
@@ -39,17 +40,17 @@ const PlayedInDirector = () => {
                 flexDirection: "column",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
+                marginTop: 6,
             }} >
-                <TextField label="Enter the director" value={drct} onChange={director} />
+                <TextField label="Year" value={drct} onChange={director} />
                 <Button onClick={handleStars} variant="contained">
-                    Search Stars From Director
+                    All Movies Released In {drct}
                 </Button>
-
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Stars in movies directed by {drct}</DialogTitle>
+                <DialogTitle>All movies of {drct}</DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box sx={{
@@ -60,9 +61,9 @@ const PlayedInDirector = () => {
                             padding: 2
                         }}>
                             <Typography key={index} variant="body1" sx={{
-
+                                fontSize: 20
                             }}>
-                                {star.primaryName} in {star.primaryTitle}
+                                {star.primaryTitle}
                             </Typography>
                         </Box>
                     ))}
@@ -72,4 +73,4 @@ const PlayedInDirector = () => {
     )
 };
 
-export default PlayedInDirector;
+export default AllMoviesReleasedIn;

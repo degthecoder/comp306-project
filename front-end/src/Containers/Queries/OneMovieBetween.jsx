@@ -54,7 +54,7 @@ const OneMovieBetween = () => {
                     <TextField sx={{ width: "50vw" }} label="Start Year" value={start} onChange={start2} />
                     <TextField sx={{ width: "50vw" }} label="End Year" value={end} onChange={end2} />
                 </Box>
-                <Button onClick={handleStars} sx={{
+                <Button variant='contained' onClick={handleStars} sx={{
                 }}>
                     Enter Dates
                 </Button>

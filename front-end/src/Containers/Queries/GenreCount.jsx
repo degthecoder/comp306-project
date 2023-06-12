@@ -43,7 +43,7 @@ const GenreCount = () => {
                 marginTop: 6,
             }} >
                 <TextField label="Enter the min rating" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="outlined">
+                <Button onClick={handleStars} variant="contained">
                     Number of movies rated {drct}
                 </Button>
 

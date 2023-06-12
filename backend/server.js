@@ -532,7 +532,7 @@ app.post("/getCastOfTheMovie", (req, res) => {
 });
 
 app.post("/allMoviesReleasedIn", (req, res) => {
-  const { year } = req.query;
+  const year = req.body.movieN;
   all_movies_in_a_year(year)
     .then((response) => {
       res.send(response);

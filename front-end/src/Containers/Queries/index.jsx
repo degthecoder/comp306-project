@@ -13,6 +13,7 @@ import DirectedAllGenres from "./DirectedAllGenres";
 import AverageRating from "./AverageRating";
 import AllMoviesOfAStar from "./AllMoviesOfAStar";
 import GetCastOfTheMovie from "./GetCastOfTheMovie";
+import AllMoviesReleasedIn from "./AllMoviesReleasedIn";
 
 
 const Directors = () => {
@@ -43,11 +44,12 @@ const Directors = () => {
                 <DirectorsWithLowerRating />
                 <OneMovieBetween />
                 <GenreCount />
+                <AllMoviesOfAStar />
+                <GetCastOfTheMovie />
+                <AllMoviesReleasedIn />
                 <AllMoviesDirectedBy />
                 <DirectedAllGenres />
                 <AverageRating />
-                <AllMoviesOfAStar />
-                <GetCastOfTheMovie />
             </Box>
         </Box>
     )

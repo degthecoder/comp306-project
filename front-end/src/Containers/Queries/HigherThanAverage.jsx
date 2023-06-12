@@ -43,7 +43,7 @@ const HigherThanAverage = () => {
                 marginTop: 6,
             }} >
                 <TextField label="Enter the director" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="outlined">
+                <Button onClick={handleStars} variant="contained">
                     Higher Than Average
                 </Button>
 

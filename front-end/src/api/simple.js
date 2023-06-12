@@ -116,3 +116,10 @@ export const getCastOfTheMovie = (data) => {
     
     return send;
 };
+
+export const allMoviesReleasedIn = (data) => {
+    // eslint-disable-next-line no-console
+    const send = axios.post(`${url}/allMoviesReleasedIn`, data);
+    
+    return send;
+};
