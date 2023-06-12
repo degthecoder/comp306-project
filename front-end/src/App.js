@@ -7,7 +7,7 @@ function App() {
     <Routes>
       <Route path="*" Component={HomePage}/>
       <Route path="/home" Component={HomePage}/>
-      <Route path="/directors" Component={queries}/>
+      <Route path="/queries" Component={queries}/>
     </Routes>
   );
 }

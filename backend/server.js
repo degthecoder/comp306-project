@@ -355,7 +355,7 @@ export function most_voted() {
 }
 
 app.post("/starInMovies", (req, res) => {
-  const {director_name} = req.query;
+  const director_name = req.body.director;
   stars_in_movies_directed_by(director_name)
     .then((response) => {
       res.send(response);
@@ -366,7 +366,10 @@ app.post("/starInMovies", (req, res) => {
 });
 
 app.post("/actedInAtLeast", (req, res) => {
-  const {birthYear} = req.query;
+  const birthYear = req.body.birthYear;
+  const num = req.body.playnum;
+
+  console.log(birthYear)
   born_after_and_acted_in_at_least(birthYear)
     .then((response) => {
       res.send(response);

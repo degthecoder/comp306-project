@@ -3,6 +3,7 @@ import PlayedInDirector from "./PlayedInDirector";
 import Navbar from "../../Layouts/Navbar";
 import PlayedInBoth from "./PlayedInBoth";
 import { Box, Typography } from "@mui/material";
+import ActedInAtLeast from "./actedInAtLeast";
 
 
 const queries = () => {
@@ -28,6 +29,7 @@ const queries = () => {
             >
                 <PlayedInDirector />
                 <PlayedInBoth />
+                <ActedInAtLeast />
             </Box>
         </Box>
     )
