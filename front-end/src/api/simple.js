@@ -73,4 +73,11 @@ export const genreCount = (data) => {
     return send;
 };
 
+export const getMostVoted = () => {
+    // eslint-disable-next-line no-console
+    const send = axios.get(`${url}/getMostVoted`);
+    
+    return send;
+};
+
 
