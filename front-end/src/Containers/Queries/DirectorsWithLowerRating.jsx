@@ -37,21 +37,29 @@ const DirectorsWithLowerRating = () => {
             <Box sx={{
                 display: 'flex',
                 alignContent: "center",
-                flexDirection: "column",
+                flexDirection: "row",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Enter the director" value={drct} onChange={director} />
-                <Button variant='contained' onClick={handleStars}>
-                    Higher Than Average
+                <TextField label="Enter Rating" value={drct} onChange={director} sx={{
+                    width: "60vw",
+                    marginRight: 4,
+                    
+                }}/>
+                <Button variant='contained' onClick={handleStars} sx={{
+                    backgroundColor: "#152e12",
+                    width: "30vw"
+
+                }}>
+                    Get Directors
                 </Button>
 
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Stars played in movies which rated higher than average of the director {drct}</DialogTitle>
+                <DialogTitle>Names of directors who have directed at least two movies with an average rating higher than {drct}</DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box sx={{

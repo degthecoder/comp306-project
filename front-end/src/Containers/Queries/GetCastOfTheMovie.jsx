@@ -37,13 +37,22 @@ const GetCastOfTheMovie = () => {
             <Box sx={{
                 display: 'flex',
                 alignContent: "center",
-                flexDirection: "column",
+                flexDirection: "row",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Find the cast members" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="contained">
+                <TextField label="Enter Movie Name" value={drct} onChange={director} sx={
+                    {
+                        width: "60vw",
+                        marginRight: 4
+                    }
+                }
+                />
+                <Button onClick={handleStars} variant="contained" sx={{
+                    backgroundColor: "#152e12",
+                    minWidth: "30vw"
+                }}>
                     Get the cast of {drct}
                 </Button>
 

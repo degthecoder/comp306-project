@@ -56,6 +56,7 @@ const PlayedInBoth = () => {
                     <TextField sx={{width: "50vw"}} label="Enter second director" value={drct2} onChange={director2} />
                 </Box>
                 <Button variant="contained" onClick={handleStars} sx={{
+                    backgroundColor: "#152e12"
                 }}>
                     Search Stars From Directors
                 </Button>

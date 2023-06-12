@@ -31,10 +31,13 @@ const DirectedAllGenres = () => {
                 alignContent: "center",
                 flexDirection: "column",
                 backgroundColor: "#faf9d4",
-                minWidth: "100vw",
+                minWidth: "30vw",
                 marginTop: 6,
             }} >
-                <Button variant='contained' onClick={handleStars}>
+                <Button variant='contained' onClick={handleStars} sx={{
+                    backgroundColor: "#152e12",
+                    
+                }}>
                     Show Directors Who Worked on All Genres
                 </Button>
 

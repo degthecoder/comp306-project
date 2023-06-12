@@ -37,13 +37,20 @@ const GenreCount = () => {
             <Box sx={{
                 display: 'flex',
                 alignContent: "center",
-                flexDirection: "column",
+                flexDirection: "row",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Enter the min rating" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="contained">
+                <TextField label="Enter Minimum Rating" value={drct} onChange={director} sx={{
+                    minWidth: "60vw",
+                    marginRight: 4
+
+                }} />
+                <Button onClick={handleStars} variant="contained" sx={{
+                    backgroundColor: "#152e12"
+                    ,minWidth: "30vw", 
+                }}>
                     Number of movies rated {drct}
                 </Button>
 
@@ -51,7 +58,7 @@ const GenreCount = () => {
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>How many movies in each genre {drct}</DialogTitle>
+                <DialogTitle>Movie count rated higher than {drct} in each genre </DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box key={index} sx={{

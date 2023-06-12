@@ -34,22 +34,33 @@ const Directors = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignContent: "center",
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    // padding: 
                 }}
             >
                 <PlayedInDirector />
-                <PlayedInBoth />
-                <ActedInAtLeast />
-                <HigherThanAverage />
-                <DirectorsWithLowerRating />
-                <OneMovieBetween />
-                <GenreCount />
                 <AllMoviesOfAStar />
                 <GetCastOfTheMovie />
                 <AllMoviesReleasedIn />
+                <GenreCount />
                 <AllMoviesDirectedBy />
+                <DirectorsWithLowerRating />
+                <PlayedInBoth />
+                <ActedInAtLeast />
+                <HigherThanAverage />
+                <OneMovieBetween />
+
+                <Box sx={{
+                    display: "flex",
+                    flexDirection: "row"
+                    ,justifyContent: "space-between",
+                    maxWidth: "100vw",
+                    padding: 3
+                }}>
+
                 <DirectedAllGenres />
                 <AverageRating />
+                </Box>
             </Box>
         </Box>
     )

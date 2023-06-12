@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import {  allMoviesReleasedIn } from "../../api/simple";
+import { allMoviesReleasedIn } from "../../api/simple";
 
 
 const AllMoviesReleasedIn = () => {
@@ -37,13 +37,21 @@ const AllMoviesReleasedIn = () => {
             <Box sx={{
                 display: 'flex',
                 alignContent: "center",
-                flexDirection: "column",
+                flexDirection: "row",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Year" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="contained">
+                <TextField label="Enter Year" value={drct} onChange={director} sx={{
+                    width: "60vw",
+                    marginRight: 4
+                }} />
+                <Button onClick={handleStars} variant="contained" sx={
+                    {
+                        backgroundColor: "#152e12",
+                        minWidth: "30vw"
+                    }
+                }>
                     All Movies Released In {drct}
                 </Button>
             </Box>

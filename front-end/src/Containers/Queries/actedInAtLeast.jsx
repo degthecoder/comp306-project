@@ -53,19 +53,20 @@ const ActedInAtLeast = () => {
                     // justifyContent: "space-evenly",
                     minWidth: "100vw",
                 }}>
-                    <TextField sx={{ width: "50vw" }} label="birthyear" value={by} onChange={biry} />
-                    <TextField sx={{ width: "50vw" }} label="num" value={nmbr} onChange={numb} />
+                    <TextField sx={{ width: "50vw" }} label="Birth Year" value={by} onChange={biry} />
+                    <TextField sx={{ width: "50vw" }} label="Minimum Movies Directed" value={nmbr} onChange={numb} />
                 </Box>
                 <Button variant='contained' onClick={handleStars} sx={{
+                    backgroundColor: "#152e12"
                 }}>
-                    Search Stars From Directors
+                    Search 
                 </Button>
 
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Born After {by}</DialogTitle>
+                <DialogTitle>Born After {by} with at least {nmbr} movies</DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => {
                         if (counter < 30) {

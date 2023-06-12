@@ -69,7 +69,7 @@ const Genres = () => {
                 alignContent: "center",
                 backgroundColor: "#faf9d4",
                 minHeight: "100vh",
-                minWidth: "100vw",
+                maxWidth: "100vw",
             }}>
                 <Typography variant="h1" sx={{
                     fontSize: 40,
@@ -81,17 +81,21 @@ const Genres = () => {
                     genreList.map((genr, index) => (
                         <Box key={index} sx={{
                             display: "flex",
-                            flexDirection: "column",
+                            flexDirection: "row",
+                            justifyContent:"space-between",
                             border: "1px solid",
                             borderRadius: 3,
                             padding: 2
                         }}>
-                            <Typography key={index} variant="body1" sx={{
-
+                            <Typography key={index} variant="h3" sx={{
+                                fontSize: 20,
+                                color: "#152e12"
                             }}>
                                 {genr.genre}
                             </Typography>
-                            <Button variant='contained' onClick={() => openGenre(genr.genre)}>
+                            <Button sx={{
+                                backgroundColor: "#152e12"
+                            }} variant='contained' onClick={() => openGenre(genr.genre)}>
                                 List Genre
                             </Button>
                         </Box>

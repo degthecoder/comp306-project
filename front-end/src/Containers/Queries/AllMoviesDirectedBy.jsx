@@ -37,13 +37,19 @@ const AllMoviesDirectedBy = () => {
             <Box sx={{
                 display: 'flex',
                 alignContent: "center",
-                flexDirection: "column",
+                flexDirection: "row",
                 backgroundColor: "#faf9d4",
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Director Name" value={drct} onChange={director} />
-                <Button variant='contained' onClick={handleStars}>
+                <TextField label="Enter Director Name" value={drct} onChange={director} sx={{
+                     minWidth: '60vw',
+                     marginRight: 4
+                }} />
+                <Button variant='contained' onClick={handleStars} sx={{
+                    backgroundColor: "#152e12",
+                    minWidth: '30vw'
+                }}>
                     All Movies Directed By
                 </Button>
 

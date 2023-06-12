@@ -55,6 +55,7 @@ const OneMovieBetween = () => {
                     <TextField sx={{ width: "50vw" }} label="End Year" value={end} onChange={end2} />
                 </Box>
                 <Button variant='contained' onClick={handleStars} sx={{
+                    backgroundColor: "#152e12"
                 }}>
                     Enter Dates
                 </Button>
@@ -62,7 +63,7 @@ const OneMovieBetween = () => {
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Between {start} and {end} </DialogTitle>
+                <DialogTitle>Directed One Movie Between {start} and {end} </DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box sx={{
