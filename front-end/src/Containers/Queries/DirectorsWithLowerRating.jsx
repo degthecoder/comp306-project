@@ -1,19 +1,19 @@
 
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import { higherThanAverage } from "../../api/simple";
+import { directorsWithLowerRating } from "../../api/simple";
 
 
-const HigherThanAverage = () => {
+const DirectorsWithLowerRating = () => {
     const [stars, setStars] = useState([]);
     const [drct, setDrct] = useState("");
     const [open, setOpen] = useState(false);
     const handleStars = () => {
         console.log("response");
         console.log(drct)
-        const data = { director: drct }
+        const data = { rating: drct }
         if (drct.length > 0) {
-            higherThanAverage(data).then(response => {
+            directorsWithLowerRating(data).then(response => {
                 console.log(response)
                 setStars(response.data)
             }).then(
@@ -74,4 +74,4 @@ const HigherThanAverage = () => {
     )
 };
 
-export default HigherThanAverage;
+export default DirectorsWithLowerRating;

@@ -1,19 +1,18 @@
-
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogContent, DialogTitle, TextField, Typography } from "@mui/material";
-import { higherThanAverage } from "../../api/simple";
+import { higherThanAverage, oneMovieBetween } from "../../api/simple";
 
 
-const HigherThanAverage = () => {
+const OneMovieBetween = () => {
     const [stars, setStars] = useState([]);
-    const [drct, setDrct] = useState("");
+    const [start, setStart] = useState("");
+    const [end, setEnd] = useState("");
+
     const [open, setOpen] = useState(false);
     const handleStars = () => {
-        console.log("response");
-        console.log(drct)
-        const data = { director: drct }
-        if (drct.length > 0) {
-            higherThanAverage(data).then(response => {
+        const data = { start: start, end: end }
+        if (end.length > 0) {
+            oneMovieBetween(data).then(response => {
                 console.log(response)
                 setStars(response.data)
             }).then(
@@ -28,8 +27,12 @@ const HigherThanAverage = () => {
     }
 
 
-    const director = (event) => {
-        setDrct(event.target.value);
+    const end2 = (event) => {
+        setEnd(event.target.value);
+    }
+
+    const start2 = (event) => {
+        setStart(event.target.value);
     }
 
     return (
@@ -42,16 +45,24 @@ const HigherThanAverage = () => {
                 minWidth: "100vw",
                 marginTop: 6,
             }} >
-                <TextField label="Enter the director" value={drct} onChange={director} />
-                <Button onClick={handleStars} variant="outlined">
-                    Higher Than Average
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: "row",
+                    // justifyContent: "space-evenly",
+                    minWidth: "100vw",
+                }}>
+                    <TextField sx={{ width: "50vw" }} label="Start Year" value={start} onChange={start2} />
+                    <TextField sx={{ width: "50vw" }} label="End Year" value={end} onChange={end2} />
+                </Box>
+                <Button onClick={handleStars} sx={{
+                }}>
+                    Enter Dates
                 </Button>
-
             </Box>
             <Dialog open={open} onClose={handleDialog} sx={{
                 color: "#faf9d4",
             }}>
-                <DialogTitle>Stars played in movies which rated higher than average of the director {drct}</DialogTitle>
+                <DialogTitle>Between {start} and {end} </DialogTitle>
                 <DialogContent>
                     {stars.map((star, index) => (
                         <Box sx={{
@@ -74,4 +85,4 @@ const HigherThanAverage = () => {
     )
 };
 
-export default HigherThanAverage;
+export default OneMovieBetween;

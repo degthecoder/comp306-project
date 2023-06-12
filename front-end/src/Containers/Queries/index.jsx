@@ -5,6 +5,8 @@ import PlayedInBoth from "./PlayedInBoth";
 import { Box, Typography } from "@mui/material";
 import ActedInAtLeast from "./actedInAtLeast";
 import HigherThanAverage from "./HigherThanAverage";
+import DirectorsWithLowerRating from "./DirectorsWithLowerRating";
+import OneMovieBetween from "./OneMovieBetween";
 
 
 const Directors = () => {
@@ -32,6 +34,8 @@ const Directors = () => {
                 <PlayedInBoth />
                 <ActedInAtLeast />
                 <HigherThanAverage />
+                <DirectorsWithLowerRating />
+                <OneMovieBetween />
             </Box>
         </Box>
     )
