@@ -1,10 +1,20 @@
 import React from "react";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 const Navbar = () => {
-    const handleClick = () => {
-        console.log("HElloo")
+    const navigate = useNavigate();
+    const handleQueries = () => {
+        navigate("/directors");
+    };
+
+    const handleHomePage = () => {
+        navigate("/");
+    };
+
+    const handleClick= () => {
+        navigate("/");
     };
 
     return (
@@ -18,24 +28,44 @@ const Navbar = () => {
                 marginRight: "100px",
                 marginLeft: "100px",
             }}>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
+                <Box sx={{ backgroundColor: "" }} onClick={handleHomePage}>
                     <Typography sx={{
                         color: "#faf9d4 ",
                         fontSize: 20,
                         fontFamily: "-apple-system",
                         userSelect: "none"
-                }}>
-                        Search
+                    }}>
+                        HomePage
                     </Typography>
                 </Box>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
-                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system" ,userSelect: "none"}}>
-                        Movies
+                <Box sx={{ backgroundColor: "" }} onClick={handleQueries}>
+                    <Typography sx={{
+                        color: "#faf9d4 ",
+                        fontSize: 20,
+                        fontFamily: "-apple-system",
+                        userSelect: "none"
+                    }}>
+                        Queries
                     </Typography>
                 </Box>
-                <Box sx={{backgroundColor: ""}} onClick={handleClick}>
-                    <Typography sx={{ color: "#faf9d4 ", fontSize: 20, fontFamily: "-apple-system",userSelect: "none" }}>
-                        Filter
+                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
+                    <Typography sx={{
+                        color: "#faf9d4 ",
+                        fontSize: 20,
+                        fontFamily: "-apple-system",
+                        userSelect: "none"
+                    }}>
+                        Directors
+                    </Typography>
+                </Box>
+                <Box sx={{ backgroundColor: "" }} onClick={handleClick}>
+                    <Typography sx={{
+                        color: "#faf9d4 ",
+                        fontSize: 20,
+                        fontFamily: "-apple-system",
+                        userSelect: "none"
+                    }}>
+                        Stars
                     </Typography>
                 </Box>
             </Toolbar>

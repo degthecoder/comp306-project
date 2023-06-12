@@ -15,14 +15,14 @@ app.use(bodyParser.json());
 const pool = mysql.createPool({
   host: "127.0.0.1",
   user: "root",
-  password: "", //silcem
+  password: "", //silce
   database: "comp306",
 });
 
 //To retrieve the names of stars who have acted in movies directed by Martin Scorsese
 export function stars_in_movies_directed_by(director_name) {
   const query1 = `
-  SELECT DISTINCT s.primaryName
+  SELECT DISTINCT s.primaryName, m.primaryTitle
   FROM Stars s
   JOIN PlaysIn pi ON s.starId = pi.starId
   JOIN Movies m ON pi.filmId = m.id
@@ -59,14 +59,14 @@ export function avg_rating_for_each_genre() {
 }
 
 //To find the names of stars who born after birthYear and appeared in at least 20 movies
-export function born_after_and_acted_in_at_least(birthYear) {
+export function born_after_and_acted_in_at_least(birthYear, moreThan) {
   const query1 = `
   SELECT DISTINCT s.primaryName
   FROM Stars s
   JOIN PlaysIn pi ON s.starId = pi.starId
   WHERE s.birthYear > '${birthYear}'
   GROUP BY s.primaryName
-  HAVING COUNT(DISTINCT pi.filmId) >= 20;
+  HAVING COUNT(DISTINCT pi.filmId) >= '${moreThan}';
     `;
   return new Promise((resolve, reject) => {
     pool.query(query1, (err, results) => {
@@ -294,8 +294,10 @@ app.post("/avgRating", (req, res) => {
 });
 
 app.post("/playedInBoth", (req, res) => {
-  const {director_name} = req.query;
-  played_in_both(director1, director2)
+  const dir1 = req.body.director1;
+  const dir2 = req.body.director2;
+
+  played_in_both(dir1, dir2)
     .then((response) => {
       res.send(response);
     })
@@ -349,7 +351,6 @@ app.post("/genreCount", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  const data = req.body.data;   
   stars_in_movies_directed_by("Martin Scorsese")
   born_after_and_acted_in_at_least("1990")
   directed_movies_of_all_genres()
@@ -363,6 +364,6 @@ app.get("/", (req, res) => {
 });
 
 app.listen(3008, () => {
-  console.log("Started... on 3000");
+  console.log("Started... on 3008");
 });
 
